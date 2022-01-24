@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <title>Fisioterapeuta</title>
+</head>
+<body>
+    <div class="container">
+        <table class="table table-hover">
+          <thead class= "table table-dark table-striped">
+            <tr>
+              <th>Nome Pacientes</th>
+              <th>Idade Pacientes</th>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% patients.forEach(function(patient) { %>
+            <tr>
+              <td><%= patient.attributes.name %></td>
+              <td><%= patient.attributes.age %></td>
+              <td><a class="btn-excluir" href="http://localhost:3000<%= patient.links.self %>">Excluir</a></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+
+      <script>
+        const patientList = document.querySelector('table');
+        patientList.addEventListener('click', function(event) {
+          event.preventDefault();
+          const btnExcluir = event.target;
+          if (btnExcluir.classList.contains('btn-excluir')) {
+            const url = btnExcluir.href;
+            
+            fetch(url, {
+              method: 'DELETE'
+            }).then(function() {
+              btnExcluir.parentNode.parentNode.remove();
+            })
+          }
+        })
+      </script>
+</body>
+</html>
